@@ -13,22 +13,27 @@
 #    limitations under the License.
 
 import os
+
 from ament_index_python import get_package_share_directory
 from launch import LaunchDescription
-import launch
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 
 def generate_launch_description():
     slave_eds_path = os.path.join(
-        get_package_share_directory("canopen_tests"), "config", "cia402", "cia402_slave.eds"
+        get_package_share_directory("canopen_tests"),
+        "config",
+        "cia402",
+        "cia402_slave.eds",
     )
 
     slave_node_1 = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [
-                os.path.join(get_package_share_directory("canopen_fake_slaves"), "launch"),
+                os.path.join(
+                    get_package_share_directory("canopen_fake_slaves"), "launch"
+                ),
                 "/cia402_slave.launch.py",
             ]
         ),
@@ -36,6 +41,7 @@ def generate_launch_description():
             "node_id": "2",
             "node_name": "cia402_node_1",
             "slave_config": slave_eds_path,
+            "log_level": "debug",
         }.items(),
     )
     master_bin_path = os.path.join(
@@ -68,6 +74,7 @@ def generate_launch_description():
                 "bus.yml",
             ),
             "can_interface_name": "vcan0",
+            "log_level": "debug",
         }.items(),
     )
 

@@ -1,4 +1,5 @@
 options:
+  # dcf_path: "@BUS_CONFIG_PATH@"
   dcf_path: "@BUS_CONFIG_PATH@"
 
 master:

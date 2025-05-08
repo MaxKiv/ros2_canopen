@@ -3,3 +3,10 @@
 **/__pycache__/
 **/_build
 **/api
+
+.cache
+.direnv/
+build/
+compile_commands.json*
+install/
+log/

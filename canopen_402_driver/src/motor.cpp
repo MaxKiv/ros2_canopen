@@ -52,12 +52,32 @@ bool Motor402::isModeSupportedByDevice(uint16_t mode)
   bool supported = supported_modes & (1 << (mode - 1));
   bool below_max = mode <= 32;
   bool above_min = mode > 0;
+
+  if (below_max && above_min && supported)
+  {
+    RCLCPP_INFO(rclcpp::get_logger("canopen_402_driver"), "XXX mode %u is SUPPORTED", mode);
+  }
+  else
+  {
+    RCLCPP_INFO(
+      rclcpp::get_logger("canopen_402_driver"),
+      "XXX mode %u is UNSUPPORTED\nbelow_max: %d\nabove_min: %d\nsupported_modes: %d", mode,
+      below_max, above_min, supported_modes);
+  }
   return below_max && above_min && supported;
 }
 void Motor402::registerMode(uint16_t id, const ModeSharedPtr & m)
 {
+  RCLCPP_INFO(
+    rclcpp::get_logger("canopen_402_driver"), "XXX registerMode for id %u, m->mode_id_: %u", id,
+    m->mode_id_);
   std::scoped_lock map_lock(map_mutex_);
-  if (m && m->mode_id_ == id) modes_.insert(std::make_pair(id, m));
+  if (m && m->mode_id_ == id)
+  {
+    RCLCPP_INFO(
+      rclcpp::get_logger("canopen_402_driver"), "XXX registerMode for id after mutex %u", id);
+    modes_.insert(std::make_pair(id, m));
+  }
 }
 
 ModeSharedPtr Motor402::allocMode(uint16_t mode)
@@ -65,11 +85,20 @@ ModeSharedPtr Motor402::allocMode(uint16_t mode)
   ModeSharedPtr res;
   if (isModeSupportedByDevice(mode))
   {
+    RCLCPP_INFO(rclcpp::get_logger("canopen_402_driver"), "XXX allocMode %u is SUPPORTED", mode);
     std::scoped_lock map_lock(map_mutex_);
     std::unordered_map<uint16_t, ModeSharedPtr>::iterator it = modes_.find(mode);
     if (it != modes_.end())
     {
+      RCLCPP_INFO(
+        rclcpp::get_logger("canopen_402_driver"), "XXX allocMode mode %u found in modestate", mode);
       res = it->second;
+    }
+    else
+    {
+      RCLCPP_INFO(
+        rclcpp::get_logger("canopen_402_driver"), "XXX allocMode mode %u not found in modes state",
+        mode);
     }
   }
   return res;
@@ -77,6 +106,7 @@ ModeSharedPtr Motor402::allocMode(uint16_t mode)
 
 bool Motor402::switchMode(uint16_t mode)
 {
+  RCLCPP_INFO(rclcpp::get_logger("canopen_402_driver"), "XXX Switching to mode: %u", mode);
   if (mode == MotorBase::No_Mode)
   {
     std::scoped_lock lock(mode_mutex_);
@@ -95,6 +125,7 @@ bool Motor402::switchMode(uint16_t mode)
     return true;
   }
 
+  RCLCPP_INFO(rclcpp::get_logger("canopen_402_driver"), "XXX Alloc mode %u", mode);
   ModeSharedPtr next_mode = allocMode(mode);
   if (!next_mode)
   {

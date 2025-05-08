@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.11)
 project(canopen_tests)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -13,6 +13,7 @@ find_package(lely_core_libraries REQUIRED)
 generate_dcf(simple)
 generate_dcf(canopen_system)
 cogen_dcf(cia402_system)
+cogen_dcf(dryve)
 cogen_dcf(cia402_namespaced_system)
 cogen_dcf(cia402)
 generate_dcf(cia402_lifecycle)

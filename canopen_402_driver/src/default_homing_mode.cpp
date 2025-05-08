@@ -60,11 +60,11 @@ bool DefaultHomingMode::executeHoming()
   }
   /// @ get abs time from canopen_master
   std::chrono::steady_clock::time_point prepare_time =
-    std::chrono::steady_clock::now() + std::chrono::seconds(1);
+    std::chrono::steady_clock::now() + std::chrono::seconds(10);
   // ensure homing is not running
   std::unique_lock lock(mutex_);
   if (!cond_.wait_until(
-        lock, prepare_time, masked_status_not_equal<MASK_Error | MASK_Reached, 0>(status_)))
+        lock, prepare_time, masked_status_not_equal < MASK_Error | MASK_Reached, 0 > (status_)))
   {
     return error("could not prepare homing");
   }
@@ -77,8 +77,8 @@ bool DefaultHomingMode::executeHoming()
 
   // ensure start
   if (!cond_.wait_until(
-        lock, prepare_time,
-        masked_status_not_equal<MASK_Error | MASK_Attained | MASK_Reached, MASK_Reached>(status_)))
+        lock, prepare_time, masked_status_not_equal < MASK_Error | MASK_Attained | MASK_Reached,
+        MASK_Reached > (status_)))
   {
     return error("homing did not start");
   }
@@ -95,7 +95,7 @@ bool DefaultHomingMode::executeHoming()
 
   // wait for attained
   if (!cond_.wait_until(
-        lock, finish_time, masked_status_not_equal<MASK_Error | MASK_Attained, 0>(status_)))
+        lock, finish_time, masked_status_not_equal < MASK_Error | MASK_Attained, 0 > (status_)))
   {
     return error("homing not attained");
   }
@@ -106,7 +106,7 @@ bool DefaultHomingMode::executeHoming()
 
   // wait for motion stop
   if (!cond_.wait_until(
-        lock, finish_time, masked_status_not_equal<MASK_Error | MASK_Reached, 0>(status_)))
+        lock, finish_time, masked_status_not_equal < MASK_Error | MASK_Reached, 0 > (status_)))
   {
     return error("homing did not stop");
   }

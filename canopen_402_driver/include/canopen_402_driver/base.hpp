@@ -16,6 +16,7 @@
 //
 #ifndef CANOPEN_402_BASE_H
 #define CANOPEN_402_BASE_H
+#include <rclcpp/logger.hpp>
 #include <string>
 
 #include "lely/coapp/driver.hpp"

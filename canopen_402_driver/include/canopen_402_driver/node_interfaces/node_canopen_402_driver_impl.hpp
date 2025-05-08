@@ -392,7 +392,9 @@ void NodeCanopen402Driver<rclcpp::Node>::configure(bool called_from_base)
 template <class NODETYPE>
 void NodeCanopen402Driver<NODETYPE>::activate(bool called_from_base)
 {
+  RCLCPP_INFO(this->node_->get_logger(), "Activate NodeCanopen402Driver");
   NodeCanopenProxyDriver<NODETYPE>::activate(false);
+  RCLCPP_INFO(this->node_->get_logger(), "Attempting to register default modes");
   motor_->registerDefaultModes();
   motor_->set_diagnostic_status_msgs(this->diagnostic_collector_, this->diagnostic_enabled_);
 }

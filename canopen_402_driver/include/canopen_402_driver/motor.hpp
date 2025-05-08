@@ -169,12 +169,16 @@ public:
   template <typename T, typename... Args>
   bool registerMode(uint16_t mode, Args &&... args)
   {
+    RCLCPP_INFO(rclcpp::get_logger("canopen_402_driver"), "XXX registerMode for mode %u", mode);
     return mode_allocators_
       .insert(std::make_pair(
         mode,
         [args..., mode, this]()
         {
-          if (isModeSupportedByDevice(mode)) registerMode(mode, ModeSharedPtr(new T(args...)));
+          if (isModeSupportedByDevice(mode))
+          {
+            registerMode(mode, ModeSharedPtr(new T(args...)));
+          }
         }))
       .second;
   }
@@ -185,6 +189,7 @@ public:
    */
   virtual void registerDefaultModes()
   {
+    RCLCPP_INFO(rclcpp::get_logger("canopen_402_driver"), "XXX inside registerDefaultModes");
     registerMode<ProfiledPositionMode>(MotorBase::Profiled_Position, driver);
     registerMode<VelocityMode>(MotorBase::Velocity, driver);
     registerMode<ProfiledVelocityMode>(MotorBase::Profiled_Velocity, driver);
