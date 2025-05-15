@@ -12,9 +12,15 @@
     poetry2nix.url = "github:nix-community/poetry2nix";
   };
 
-  outputs = { self, nixpkgs, flake-utils, ros2, ... } @ inputs:
+  outputs = {
+    self,
+    nixpkgs,
+    flake-utils,
+    ros2,
+    ...
+  } @ inputs:
     flake-utils.lib.eachDefaultSystem (system: let
-      overlays = [ ros2.overlays.default ];
+      overlays = [ros2.overlays.default];
 
       pkgs = import nixpkgs {
         inherit system overlays;
@@ -44,24 +50,27 @@
           boost186
           libxcrypt
 
-          rosPkgs.ros-core
-          rosPkgs.ros2cli
-          rosPkgs.ros2launch
-          rosPkgs.ros2-control
-          rosPkgs.rclcpp
-          rosPkgs.std-msgs
-          rosPkgs.can-msgs
-          rosPkgs.yaml-cpp-vendor
-          rosPkgs.diagnostic-updater
           rosPkgs.ament-cmake
           rosPkgs.ament-cmake-core
-          rosPkgs.ament-lint
           rosPkgs.ament-index-python
+          rosPkgs.ament-lint
           rosPkgs.ament-package
+          rosPkgs.can-msgs
+          rosPkgs.diagnostic-updater
+          rosPkgs.rclcpp
+          rosPkgs.ros-core
+          rosPkgs.ros2-control
+          rosPkgs.ros2cli
+          rosPkgs.ros2launch
+          rosPkgs.std-msgs
+          rosPkgs.yaml-cpp-vendor
 
           # Python environment with dependencies from pyproject.toml
           pythonEnv
           poetry
+
+          # Basedpyright (Pyright wrapper) for LSP support
+          basedpyright
 
           # python312
           # python312Packages.pyyaml
@@ -74,11 +83,14 @@
         # '';
 
         # shellHook = ''
-        #   source ${rosPkgs.rosSetupHook}
         #   export ROS_DOMAIN_ID=42 # avoid collisions
         # '';
       };
 
       formatter.x86_64-linux = pkgs.alejandra;
     });
+  nixConfig = {
+    extra-substituters = ["https://ros.cachix.org"];
+    extra-trusted-public-keys = ["ros.cachix.org-1:dSyZxI8geDCJrwgvCOHDoAfOm5sV1wCPjBkKL+38Rvo="];
+  };
 }
