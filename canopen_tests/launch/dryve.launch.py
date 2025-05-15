@@ -47,4 +47,9 @@ def generate_launch_description():
 
     ld.add_action(device_container)
 
+    print("LaunchDescription actions:")
+    for action in ld.entities:
+        print(action.describe())
+        print(action.describe_sub_entities())
+
     return ld

@@ -3,7 +3,7 @@ help:
     @just --list
 
 build:
-    colcon build --symlink-install --merge-install
+    CMAKE_EXPORT_COMPILE_COMMANDS=ON && colcon build --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON --symlink-install --merge-install && ln -sf . /build/compile_commands.json compile_commands.json
 
 # Don't work - run in terminal
 source:

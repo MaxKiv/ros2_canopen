@@ -7,6 +7,7 @@ master:
   driver: "ros2_canopen::MasterDriver"
   package: "canopen_master_driver"
   sync_period: 10000
+  namespace: "/"
 
 nodes:
   dryve-d1:
@@ -14,5 +15,6 @@ nodes:
     driver: "ros2_canopen::Cia402Driver"
     package: "canopen_402_driver"
     dcf: "20231116-dryve-D1-4PDO.eds"
+    namespace: "/dryve"
 
 
