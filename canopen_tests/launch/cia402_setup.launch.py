@@ -41,6 +41,7 @@ def generate_launch_description():
             "node_id": "2",
             "node_name": "cia402_node_1",
             "slave_config": slave_eds_path,
+            "log_level": "debug",
         }.items(),
     )
     master_bin_path = os.path.join(
@@ -73,6 +74,7 @@ def generate_launch_description():
                 "bus.yml",
             ),
             "can_interface_name": "vcan0",
+            "log_level": "debug",
         }.items(),
     )
 

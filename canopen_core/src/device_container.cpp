@@ -135,6 +135,7 @@ bool DeviceContainer::load_component(
       {
         // In the case that the component constructor throws an exception,
         // rethrow into the following catch block.
+        RCLCPP_ERROR(this->get_logger(), "Throwing exception %s", ex.what());
         throw DeviceContainerException(
           "Component constructor threw an exception: " + std::string(ex.what()));
       }
@@ -142,6 +143,7 @@ bool DeviceContainer::load_component(
       {
         // In the case that the component constructor throws an exception,
         // rethrow into the following catch block.
+        RCLCPP_ERROR(this->get_logger(), "Throwing exception");
         throw DeviceContainerException("Component constructor threw an exception");
       }
 

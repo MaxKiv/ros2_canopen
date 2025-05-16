@@ -21,17 +21,14 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "launch")
 import launch
 import launch.actions
 import launch.events
-
 import launch_ros
 import launch_ros.events
 import launch_ros.events.lifecycle
-from launch.substitutions import LaunchConfiguration, PythonExpression, TextSubstitution
 from launch.actions import DeclareLaunchArgument
-import lifecycle_msgs.msg
+from launch.substitutions import LaunchConfiguration, TextSubstitution
 
 
 def generate_launch_description():
-
     bus_conf_arg = DeclareLaunchArgument(
         "bus_config",
         default_value=TextSubstitution(text=""),
@@ -71,6 +68,7 @@ def generate_launch_description():
         ]
     )
     lifecycle_device_container_node = launch_ros.actions.LifecycleNode(
+        arguments=["--ros-args", "--log-level", "debug"],
         name="device_container_node",
         namespace=LaunchConfiguration("namespace"),
         package="canopen_core",
