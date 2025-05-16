@@ -1,0 +1,28 @@
+[Device]
+Name=ROS2_CANopen_Master
+DeviceType=0x0000
+VendorName=OpenAI
+VendorNumber=0
+ProductNumber=1
+RevisionNumber=1
+OrderCode=MASTER
+
+[1018]
+SubNumber=4
+Sub0=4
+Sub1=0x00000001 ; Vendor ID
+Sub2=0x00000001 ; Product Code
+Sub3=0x00000001 ; Revision
+Sub4=0x00000001 ; Serial Number
+
+[1005] ; SYNC COB-ID
+ParameterValue=0x80
+
+[1006] ; Communication Cycle Period (in µs)
+ParameterValue=10000
+
+[1007] ; Synchronous Window Length (optional)
+ParameterValue=0
+
+[1017] ; Heartbeat producer time (ms)
+ParameterValue=1000

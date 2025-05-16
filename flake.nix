@@ -64,6 +64,7 @@
           rosPkgs.ros2launch
           rosPkgs.std-msgs
           rosPkgs.yaml-cpp-vendor
+          rosPkgs.canopen-interfaces
 
           # Python environment with dependencies from pyproject.toml
           pythonEnv

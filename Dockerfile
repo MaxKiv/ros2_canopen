@@ -1,5 +1,4 @@
-FROM ros:rolling-ros-core
-
+FROM ros:rolling-ros-core AS base
 
 RUN apt-get update \
     && apt-get install -y \
@@ -12,6 +11,8 @@ RUN apt-get update \
 
 WORKDIR /home/can_ws/src
 COPY . ros2_canopen
+
+FROM base AS build
 
 WORKDIR /home/can_ws/
 RUN . /opt/ros/rolling/setup.sh \
